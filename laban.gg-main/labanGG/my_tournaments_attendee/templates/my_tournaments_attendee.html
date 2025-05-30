@@ -1,0 +1,131 @@
+{% extends 'base_attendee.html' %}
+
+{% block title %}My Tournaments{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            background-color: #4D24AC; 
+        }
+        .black-box {
+            background-color: black;
+            border-radius: 30px;
+            padding: 20px;
+            color: white;
+            margin: auto;
+            width: 30%;
+            margin-top: 50px;
+            overflow: auto; 
+            position: relative; 
+        }
+        .purple-box {
+            background-color: #9400D3; 
+            padding: 10px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        .pink-button {
+            background-color: #F6247B;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            float: right;
+            margin-top: 20px;
+        }
+        .form-column {
+            width: 45%;
+            float: left;
+            padding-right: 5%;
+        }
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            margin-left: 680px;
+        }
+        h2 {
+            font-size: 35px;
+        }
+        .upload-box {
+            background-color: #B3B3B3;
+            padding: 5px 10px; 
+            border-radius: 10px;
+            margin-right: 10px; 
+        }
+        .tournament-item {
+            background-color: black;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .tournament-image {
+            float: left;
+            margin-right: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .tournament-info {
+            overflow: hidden;
+            margin-left: 160px;
+        }
+        .tournament-details {
+            float: right;
+            margin-top: 0;
+        }
+        .pink-box {
+            background-color: #F6247B;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .icon {
+            width: 20px; 
+            height: 20px;
+            margin-right: 5px;
+            vertical-align: middle; 
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center; color: white;">My Tournaments</h2>
+    <div class="header-row">
+        <form method="GET" action="/my_tournaments_attendee/">
+            <input type="text" name="q" placeholder="Search by tournament name">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="tournament-list">
+        {% for tournament in tournaments %}
+        <div class="black-box">
+            <div class="tournament-item">
+                <div class="tournament-image">
+                    <div class="pink-box">
+                        <img src="{{ tournament.image.url }}" alt="{{ tournament.name }} Image" style="max-width: 150px; max-height: 150px;">
+                    </div>
+                </div>
+                <div class="tournament-info">
+                    <h3>{{ tournament.name }}</h3>
+                    <p>
+                        <img src="https://i.gyazo.com/fb6ab2d876f03728b8409988f14b1c68.png?fbclid=IwAR0Z4PoatuWD3FgURTzOLIa17VLk3EhyC77hjD4rRqW8fwHxussBc8axpfM" alt="Calendar Icon" class="icon"> Schedule: {{ tournament.schedule }}
+                    </p>
+                    <p>
+                        <img src="https://i.gyazo.com/ba5724c3a958c2a45f3d9cb246331803.png?fbclid=IwAR3-g3tkzxlUn9NDJG_pDqUVKiXBXY_jhYW18h1Tg4BwgDLDQ32acWjzSI8" alt="Tier Icon" class="icon"> Tier: {{ tournament.get_tier_display }}
+                    </p>
+                    <p>
+                        Status: {{ tournament.status }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <h3 style="text-align: center; color: red;">No Tournaments Joined</h3>
+        {% endfor %}
+    </div>
+</body>
+</html>
+{% endblock %}

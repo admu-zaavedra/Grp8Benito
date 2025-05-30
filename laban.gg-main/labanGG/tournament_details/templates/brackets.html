@@ -1,0 +1,182 @@
+{% extends base_template %}
+{% load static %}
+
+{% block title %}Tournament Brackets{% endblock %}
+
+{% block content %}
+	<head>
+        <meta charset="UTF-8">
+        <title>Tournament Brackets</title>
+        <style>
+        	body {
+                background-color: #4D24AC;
+                color: white;
+                margin-left: 125px;
+            }
+            .pink-button {
+                background-color: #F6247B;
+                color: white;
+                border: none;
+                padding: 10px 10px;
+                border-radius: 30px;
+                cursor: pointer;
+                margin-top: 20px;
+                width: 200px;
+                text-align: center;
+            }
+            .bracket {
+                display: grid;
+                grid-template-columns: 250px 250px 250px 250px;
+                justify-content: left;
+                align-items: left;
+            }
+            .round {
+            	width: 250px;
+            }
+            .player-box {
+            	background-color: black;
+            	width: 120px;
+                padding: 10px;
+                color: white;
+            }
+            .player {
+            	background-color: #9400D3;
+                width: 120px;
+                display: grid;
+                grid-template-columns: 95px 15px;
+                justify-content: center;
+                align-items: center;
+            }
+            .bracket input {
+                background-color: white;
+                border: none;
+                margin-bottom: 1px;
+            	width: 15px;
+            	color: black;
+            	text-align: center;
+            }
+            .bracket button {
+                background-color: #F6247B;
+                color: white;
+                border: none;
+                padding: 10px 10px;
+                border-radius: 50px;
+                cursor: pointer;
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+    	<div class="pink-button"><a href="/tournament{{tournament.id}}/tournament_details/">Back to Tournament Details</a></div>
+    	<form method="POST">
+    		{% csrf_token %}
+
+    		<h3>{{ message }}</h3>
+
+	    	{% if winnersBracket %}
+			    <h2>Winner's Bracket</h2>
+	    		<div class="bracket">
+			    	{% for matchup in winnersBracket.matchups.all|dictsort:"matchNumber" %}
+			    		{% if matchup.matchNumber == 1 or matchup.matchNumber == 5 or matchup.matchNumber >= 7 %}
+			    			<div class="round">
+			    		{% endif %}
+
+		    			{% if matchup.matchNumber >= 5 %}
+		    				<br><br><br><br>
+		    			{% endif %}
+
+		    			{% if matchup.matchNumber >= 6 %}
+		    				<br><br><br><br><br>
+		    			{% endif %}
+
+		    			{% if matchup.matchNumber >= 7 %}
+		    				<br><br><br>
+		    			{% endif %}
+
+			    		{% for tournamentPlayer in matchup.playerinmatchup_set.all|dictsort:"playerNumber" %}
+				    		<div class="player-box">
+				    			<div class="player">
+					    			{% if tournamentPlayer.isWinner %}
+					    				<b>
+					    			{% elif tournamentPlayer.isWinner == False %}
+					    				<em>
+					    			{% endif %}
+
+				    				{{ tournamentPlayer.player.ign }}
+				    				</em>
+				    				</b>
+
+					    			<input type="text" placeholder="{{ tournamentPlayer.score }}" name="Wm{{ matchup.matchNumber }}p{{ tournamentPlayer.playerNumber }}score">
+				    			</div>
+				    		</div>
+			    		{% endfor %}
+
+			    		{% if matchup.status == "Ongoing" %}
+			    			<button type="submit" name="reportWMatch{{ matchup.matchNumber }}Score" value="reportWMatch{{ matchup.matchNumber }}Score">
+			    				Report Score
+			    			</button>
+			    		{% else %}
+			    			<br><br><br><br>
+			    		{% endif %}
+
+			    		{% if matchup.matchNumber == 4 or matchup.matchNumber >= 6 %}
+			    			</div>
+			    		{% endif %}
+			    	{% endfor %}
+			    </div>
+
+		    {% else %}
+		    	No Brackets Created Yet
+		    {% endif %}
+
+	    	{% if losersBracket %}
+			    <h2>Loser's Bracket</h2>
+		    	<div class="bracket">
+			    	{% for matchup in losersBracket.matchups.all|dictsort:"matchNumber" %}
+			    		{% if matchup.matchNumber == 1 or matchup.matchNumber == 3 or matchup.matchNumber >= 5 %}
+			    			<div class="round">
+			    		{% endif %}
+
+			    		{% if matchup.matchNumber >= 5 %}
+			    			<br><br><br><br>
+			    		{% endif %}
+
+			    		{% for tournamentPlayer in matchup.playerinmatchup_set.all|dictsort:"playerNumber" %}
+				    		<div class="player-box">
+				    			<div class="player">
+					    			{% if tournamentPlayer.isWinner %}
+					    				<b>
+					    			{% elif tournamentPlayer.isWinner == False %}
+					    				<em>
+					    			{% endif %}
+
+				    				{{ tournamentPlayer.player.ign }}
+				    				</em>
+				    				</b>
+
+					    			<input type="text" placeholder="{{ tournamentPlayer.score }}" name="Lm{{ matchup.matchNumber }}p{{ tournamentPlayer.playerNumber }}score">
+				    			</div>
+				    		</div>
+			    		{% endfor %}
+
+			    		{% if matchup.status == "Ongoing" %}
+			    			<button type="submit" name="reportLMatch{{ matchup.matchNumber }}Score" value="reportLMatch{{ matchup.matchNumber }}Score">
+			    				Report Score
+			    			</button>
+			    		{% else %}
+			    			<br><br><br><br>
+			    		{% endif %}
+
+
+			    		{% if matchup.matchNumber == 2 or matchup.matchNumber >= 4 %}
+			    			</div>
+			    		{% endif %}
+			    	{% endfor %}
+			    </div>
+
+		    {% endif %}
+		</form>
+    </body>
+{% endblock%}

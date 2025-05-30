@@ -1,0 +1,97 @@
+{% extends 'base_attendee.html' %}
+{% load static %}
+
+{% block title %}Join Tournament{% endblock %}
+
+{% block content %}
+    <head>
+        <meta charset="UTF-8">
+        <title>Create Tournament</title>
+        <style>
+            body {
+                background-color: #4D24AC; 
+            }
+            .black-box {
+                background-color: black;
+                border-radius: 30px;
+                padding: 20px;
+                color: white;
+                margin: auto;
+                width: 60%;
+                margin-top: 50px;
+                overflow: auto; 
+            }
+            .purple-box {
+                background-color: #9400D3; 
+                padding: 10px;
+                margin-bottom: 10px;
+                color: white;
+            }
+            .pink-button {
+                background-color: #F6247B;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 50px;
+                cursor: pointer;
+                float: right;
+                margin-top: 20px;
+            }
+            .form-column {
+                width: 45%;
+                float: left;
+                padding-right: 5%;
+            }
+            .header-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 35px;
+            }
+            .upload-box {
+                background-color: #B3B3B3;
+                padding: 5px 10px; 
+                border-radius: 10px;
+                margin-right: 10px; 
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="black-box">
+            <div class="header-row">
+                <h2>Join Tournament</h2>
+            </div>
+
+            <!-- Form for joining a tournament -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-column">
+                    <div class="purple-box">
+                        <label for="id_join_tournament">User:</label>
+                        <input type="text" id="id_join_tournament" value="{{ user.username }}" disabled>
+                    </div>
+                    <div class="purple-box">
+                        <label for="id_IGN">IGN:</label>
+                        <input type="text" id="id_IGN" name="ign">
+                    </div>
+                    <div class="purple-box">
+                        <label for="id_Age">Age:</label>
+                        <input type="number" id="id_Age" name="age" min="1">
+                    </div>
+                    <div class="purple-box">
+                        <label for="id_Country">Country:</label>
+                        <input type="text" id="id_Country" name="country">
+                    </div>
+                </div>
+                <button type="submit" class="pink-button">Join Tournament</button>
+            </form>
+            <!-- End of form -->
+
+        </div>
+    </body>
+</html>
+{% endblock %}

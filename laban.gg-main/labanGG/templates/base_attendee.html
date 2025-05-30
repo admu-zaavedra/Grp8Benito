@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Page Title{% endblock %}</title>
+    <style>
+        body {
+            margin: 0; 
+            padding: 0; 
+        }
+
+        .header {
+            background-color: black; 
+            color: white; 
+            padding: 5px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            z-index: 1000; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .side-panel {
+            background-color: #1F0954; 
+            color: white; 
+            padding: 10px; 
+            width: 200px; 
+            box-sizing: border-box; 
+            position: fixed; 
+            top: 102px; 
+            left: 0; 
+            bottom: 0; 
+            z-index: 999; 
+        }
+
+        .side-panel button {
+            margin-top: 40px; 
+            background-color: #3a0ca3; 
+            color: white; 
+            border: none; 
+            padding: 10px 100px; 
+            cursor: pointer; 
+            width: 100%; 
+            box-sizing: border-box; 
+            position: relative; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            font-size: 18px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .side-panel button.home {
+            margin-top: 40px; 
+            background-color: #3a0ca3; 
+            color: white; 
+            border: none; 
+            padding: 10px 100px; 
+            cursor: pointer; 
+            width: 100%; 
+            box-sizing: border-box; 
+            position: relative; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            font-size: 18px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }   
+
+        .side-panel button.home img {
+            margin-right: 30px; 
+            width: 80px; 
+            height: 80px; 
+        }
+    
+        .side-panel button.mytournamentsorganizer {
+            margin-top: 40px; 
+            background-color: #3a0ca3; 
+            color: white; 
+            border: none; 
+            padding: 10px 100px; 
+            cursor: pointer; 
+            width: 100%; 
+            box-sizing: border-box; 
+            position: relative; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            font-size: 18px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }   
+
+        .side-panel button.mytournamentsorganizer img {
+            margin-right: 9px; 
+            width: 70px; 
+            height: 80px; 
+        }
+
+        .side-panel button img {
+            margin-right: 15px; 
+            width: 100px; 
+            height: 80px; 
+        }
+
+        .logged-in {
+            font-size: 18px;
+            margin-left: 700px; 
+        }
+
+        .logout-button {
+            padding: 10px 20px;
+            background-color: #3a0ca3;
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #624cda;
+        }
+
+        .content {
+            margin-left: 100px; /* Ensure content doesn't overlap with side panel */
+            margin-top: 200px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Side Panel -->
+    <div class="side-panel">
+        <!-- Home Button -->
+        <button class="home" onclick="location.href='/games/'"><img src="https://i.gyazo.com/e77234956224c6fb1d84b1b5372b3672.png?fbclid=IwAR0pHl3TAdorWGJ_tHk-NtfvEZ2D9BZ-lr4Ae91zkGd98-4bBX8L7ltWLX0" alt="Home Icon"> <span>Home</span></button>
+        <!-- My Tournaments Button -->
+        <button class="mytournamentsorganizer" onclick="location.href='/my_tournaments_attendee/'"><img src="https://i.gyazo.com/6c7ec79c114b75f7ef4f3acbcf171634.png?fbclid=IwAR2Wi0erEEtXev08MKoBNxbuCkdzR1biGdwZjE65lNJpxPl2I_rdnjMJhQ0" alt="My Tournaments Organizer Icon"> <span>My Tournaments</span></button>
+        <!-- View Players Button -->
+        <button onclick="location.href='/viewplayers/'"><img src="https://i.gyazo.com/8f339f1f1a0fe0def4da15f9e5613a71.png?fbclid=IwAR1pdo7yuN7bfOZm2j7yW6n4Xwdlq5GXibk_HyJSLb8Uk2FFGhCB9M5OREw" alt="Tournament Icon"> <span>View Players</span></button>
+        <!-- View Tournament Organizers Button -->
+        <button onclick="location.href='/vieworganizers/'"><img src="https://i.gyazo.com/3ea84d25bfabd52c743267ac4efe859d.png?fbclid=IwAR2IV6fIB4hyby6a_Ul4jKwAyEuQZtF65lJ1N1GxZhR6XdtvEJzoCdDYDa0" alt="Tournament Icon"> <span>View Tournament Organizers</span></button>
+        <!-- Notifications Button -->
+        <button onclick="location.href='/notifications_page/'"><img src="https://i.gyazo.com/51bb1f55a96689ba6eb234195dc017bb.png?fbclid=IwAR3emqu931xnT3xV1cgBl5jVGBOiI7p-YSLCZOGI4F3hZruHi44OL5WRhaw" alt="Tournament Icon"> <span>Notifications</span></button>
+    </div>
+    <!-- Header Panel -->
+    <div class="header">
+        <div class="logo">
+            <!-- Your logo image goes here -->
+            <img src="https://i.gyazo.com/cbb5ad244a3e28c3dd89906f62f179fe.png" alt="laban.gg logo">
+        </div>
+        <!-- Other elements in the future to be added in the header panel can be placed here -->
+        <p class="logged-in">Logged in as {{ user.username }}</p>
+        <button class=logout-button id="logOutButton">Log out</button>
+    </div>
+
+    <!-- Content Block -->
+    <div class="content">
+        {% block content %}
+        <!-- Page-specific content goes here -->
+        {% endblock %}
+    </div>
+
+    <script>
+        document.getElementById("logOutButton").addEventListener("click", function() {
+            window.location.href = "{% url 'log_in:log_in_view' %}";
+        });
+    </script>
+</body>
+</html>

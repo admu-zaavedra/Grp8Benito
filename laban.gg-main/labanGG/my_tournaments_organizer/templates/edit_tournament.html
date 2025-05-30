@@ -1,0 +1,121 @@
+{% extends 'base_organizer.html' %}
+{% load static %}
+
+{% block title %}My Tournaments{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Create Tournament</title>
+    <style>
+        body {
+            background-color: #4D24AC; 
+        }
+        .black-box {
+            background-color: black;
+            border-radius: 30px;
+            padding: 20px;
+            color: white;
+            margin: auto;
+            width: 60%;
+            margin-top: 50px;
+            overflow: auto; 
+        }
+        .purple-box {
+            background-color: #9400D3; 
+            padding: 10px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        .pink-button {
+            background-color: #F6247B;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            float: right;
+            margin-top: 20px;
+        }
+        .form-column {
+            width: 45%;
+            float: left;
+            padding-right: 5%;
+        }
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 35px;
+        }
+        .upload-box {
+            background-color: #B3B3B3;
+            padding: 5px 10px; 
+            border-radius: 10px;
+            margin-right: 10px; 
+        }
+
+    </style>
+</head>
+<body>
+    <div class="black-box">
+        <h2>Edit Tournament</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-column">
+                <div class="purple-box">
+                    <label for="id_tournament_organizer">Tournament Organizer:</label>
+                    <input type="text" id="id_tournament_organizer" value="{{ user.username }}" disabled>
+                </div>
+                <div class="purple-box">
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                </div>
+                <div class="purple-box">
+                    {{ form.game.label_tag }}
+                    {{ form.game }}
+                </div>
+                <div class="purple-box">
+                    {{ form.tier.label_tag }}
+                    {{ form.tier }}
+                </div>
+                <div class="purple-box">
+                    {{ form.location.label_tag }}
+                    {{ form.location }}
+                </div>
+                <div class="purple-box">
+                    {{ form.format.label_tag }}
+                    {{ form.format }}
+                </div>
+                <div class="purple-box">
+                    {{ form.application_link.label_tag }}
+                    {{ form.application_link }}
+                </div>
+                <div class="purple-box">
+                    {{ form.schedule.label_tag }}
+                    {{ form.schedule }}
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="purple-box">
+                    {{ form.prize_pool.label_tag }}
+                    {{ form.prize_pool }}
+                </div>
+                <div class="purple-box">
+                    {{ form.more_details.label_tag }}
+                    {{ form.more_details }}
+                </div>
+                <div class="upload-box">
+                    {{ form.image.label_tag }}
+                    {{ form.image }}
+                </div>
+            </div>
+            <button type="submit" class="pink-button">Edit Tournament</button>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends base_template %} 
+
+{% load static %}
+{% block title %}Games List{% endblock %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <style>
+        body {
+            background-color: #4D24AC; 
+        }
+
+        .purple-box {
+            background-color: #4D24AC;
+            border-radius: 30px;
+            padding: 20px;
+            color: white;
+            margin: auto;
+            width: 70%;
+            margin-top: 50px;
+            overflow: auto; 
+        }
+
+        .head-box {
+            background-color: #4D24AC;
+            border-radius: 30px;
+            padding: 20px;
+            color: white;
+            margin: auto;
+            width: 70%;
+            margin-top: 50px;
+            overflow: auto; 
+        }
+
+        .grid-container {
+            flex: 33.33%;
+            display: grid;
+            grid-template: 330px / auto auto auto auto;
+            
+            overflow: auto;
+            }
+
+        .grid-box{
+
+        }
+
+        a:link {
+            color: white;
+            background-color: transparent;
+            text-decoration: none;
+            }
+            
+            a:visited {
+            color: white;
+            background-color: transparent;
+            text-decoration: underline;
+            }
+            
+            a:hover {
+            color: red;
+            background-color: transparent;
+            text-decoration: underline;
+            }
+            
+            a:active {
+            color: yellow;
+            background-color: transparent;
+            text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+    
+    <div class="purple-box">
+        <h1>Browse</h1>
+    <form action="{% url 'games_list:games-search' %}" method="get">
+        {%csrf_token%}
+        <input type="text" name="q" placeholder="Search Games">
+        <button type="submit" >Search</button>
+    </form>
+    </div>
+
+    <div class="purple-box">
+    <div class="grid-container">
+    {% for object in object_list %}
+        <div class="grid-box">
+            <center>
+                <img src={{object.image.url}} width="200" height="300"/> <br>
+                <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+            </center>
+        </div>
+        {% empty %}
+            No Results Found
+    {% endfor %}
+    </div>
+    </div>
+</body>
+</html>
+{% endblock %}

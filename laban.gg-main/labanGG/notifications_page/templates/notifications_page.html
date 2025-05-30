@@ -1,0 +1,98 @@
+{% extends base_template %}
+{% load static %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+    <head>
+        <meta charset="UTF-8">
+        <title>Notifications</title>
+        <style>
+            body {
+                background-color: #4D24AC; 
+            }
+            .black-box {
+                background-color: black;
+                border-radius: 30px;
+                padding: 20px;
+                color: white;
+                margin: auto;
+                width: 60%;
+                margin-top: 50px;
+                overflow: auto; 
+            }
+            .purple-box {
+                background-color: #9400D3; 
+                padding: 10px;
+                margin-bottom: 10px;
+                color: white;
+            }
+            .pink-button {
+                background-color: #F6247B;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 50px;
+                cursor: pointer;
+                float: right;
+                margin-top: 20px;
+            }
+            .form-column {
+                width: 45%;
+                float: left;
+                padding-right: 5%;
+            }
+            .header-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 35px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="black-box">
+            <h1>Notification Settings</h1>
+            <form method="post">
+                {% csrf_token %}
+                <label for="notifications1">Ongoing Tournaments Notifications</label>
+                <input type="checkbox" id="notifications1" name="notifications1" {% if notifications_page.notifications1 %}checked{% endif %}><br>
+
+                <label for="notifications2">Accepted Applications Notifications</label>
+                <input type="checkbox" id="notifications2" name="notifications2" {% if notifications_page.notifications2 %}checked{% endif %}><br>
+        
+                <label for="notifications3">Rejected Applications Notifications</label>
+                <input type="checkbox" id="notifications3" name="notifications3" {% if notifications_page.notifications3 %}checked{% endif %}><br>
+
+                <button type="submit" class="pink-button">Save</button>
+                {% if request.method == 'POST' %}
+                    {% if notifications_page %}
+                        <p class="success-message">Successfully updated settings</p>
+                    {% endif %}
+                {% endif %}
+            </form>
+        </div>
+
+        <div class="black-box">
+            <h2>Ongoing Tournaments Notifications</h2>
+            {% if message1 %}
+                <p>{{ message1 }}</p>
+            {% endif %}
+        </div>
+        <div class="black-box">
+            <h2>Accepted Applications Notifications</h2>
+            {% if message2 %}
+                <p>{{ message2 }}</p>
+            {% endif %}
+        </div>
+        <div class="black-box">
+            <h2>Rejected Applications Notifications</h2>
+            {% if message3 %}
+                <p>{{ message3 }}</p>
+            {% endif %}
+        </div>
+    </body>
+{% endblock %}

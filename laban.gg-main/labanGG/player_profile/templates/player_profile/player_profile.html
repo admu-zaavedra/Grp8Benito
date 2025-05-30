@@ -1,0 +1,103 @@
+{% extends base_template %} 
+
+{% load static %}
+{% block title %}Player Profile{% endblock %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <style>
+        body {
+            background-color: #4D24AC; 
+        }
+
+        .purple-box {
+            background-color: #4D24AC;
+            border-radius: 30px;
+            padding: 20px;
+            color: white;
+            margin: auto;
+            width: 70%;
+            height: 1500px;
+            margin-top: 50px;
+            overflow: auto; 
+        }
+
+        .head-box {
+            background-color: #4D24AC;
+            border-radius: 30px;
+            padding: 20px;
+            color: white;
+            margin: auto;
+            width: 70%;
+            margin-top: 50px;
+            overflow: auto; 
+        }
+
+        .grid-container {
+            flex: 33.33%;
+            display: grid;
+            grid-template: 330px / auto auto;
+            
+            overflow: auto;
+            }
+
+        .grid-box{
+
+        }
+
+        a:link {
+            color: white;
+            background-color: transparent;
+            text-decoration: none;
+            }
+            
+            a:visited {
+            color: white;
+            background-color: transparent;
+            text-decoration: underline;
+            }
+            
+            a:hover {
+            color: red;
+            background-color: transparent;
+            text-decoration: underline;
+            }
+            
+            a:active {
+            color: yellow;
+            background-color: transparent;
+            text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+    <div class="purple-box">
+        <div class="grid-container">
+            <div class="grid-box">
+                <center>
+                <h1>{{ object.ign }}</h1>
+                <br>
+                <img src="/account_profile_images/default.png" width="200" height="200">
+                </center>
+            </div>
+
+            <div class="grid-box">
+                <h3>Player Info:</h3>
+                <li> Country: {{object.country}}</li>
+                <li> Age: {{object.age}} </li>
+                <br>
+                <h3>Tournaments Participating in:</h3>
+                {% if object.status_is_accepted %}
+                    <li>{{object.tournament.name}}</li>
+                {% else %}
+                    <li>N/A</li>
+                {% endif %}
+            </div>
+
+            </center>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends base_template %} 
+
+{% load static %}
+{% block title %}List of Tournaments{% endblock %}
+
+{% block content %}
+<head>
+    <style>
+        body {
+            background-color: #4D24AC; 
+        }
+
+        .purple-box {
+            background-color: #4D24AC;
+            border-radius: 30px;
+            padding: 20px;
+            color: white;
+            margin: auto;
+            width: 70%;
+            margin-top: 50px;
+            overflow: auto; 
+        }
+
+        .head-box {
+            background-color: #4D24AC;
+            border-radius: 30px;
+            padding: 20px;
+            color: white;
+            margin: auto;
+            width: 70%;
+            margin-top: 50px;
+            overflow: auto; 
+        }
+
+        .grid-container {
+            flex: 33.33%;
+            display: grid;
+            grid-template: 330px / auto;
+            
+            overflow: auto;
+          }
+
+        .image-box {
+            background-color: #F6247B;
+            width: 100px;
+            border-radius: 20px;
+            overflow: auto;
+          }
+
+        .grid-box{
+            background-color: black;
+            padding: 30px;
+            width: 70%;
+            border-radius: 30px;
+        }
+
+        .pink-button {
+            background-color: #F6247B;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        a:link {
+            color: white;
+            background-color: transparent;
+            text-decoration: none;
+          }
+          
+          a:visited {
+            color: white;
+            background-color: transparent;
+            text-decoration: underline;
+          }
+          
+          a:hover {
+            color: red;
+            background-color: transparent;
+            text-decoration: underline;
+          }
+          
+          a:active {
+            color: yellow;
+            background-color: transparent;
+            text-decoration: underline;
+          }
+    </style>
+</head>
+<body>
+    <div class="purple-box">
+    <center>
+    <h1>{{ object.title }} Tournaments</h1>
+
+
+    </center>
+    </div>
+
+    <div class="purple-box">
+    <ul>
+        <div class="grid-container">
+        {% for entry in object.tournament_set.all %}
+            <div class="grid-box">
+                <div class="image-box">
+                    <img src="{{ entry.image.url }}" width="100" height="150"/> <br>
+                </div>
+
+                <a href="{{ entry.get_absolute_detail_url }}">{{ entry.title }}</a> <br>
+                    Name: {{ entry.name }} <br>
+                    Tier: {{ entry.tier }} <br>
+                    Schedule: {{ entry.schedule }} <br>
+                    Status: {{ entry.status }} <br>
+
+                    <button class="pink-button"><a href="/tournament{{ entry.id }}/tournament_details/">View Tournament Details</a></button>
+            </div>
+            <br>
+        {% empty %}
+            There are no tournaments scheduled involving {{ object.title }}
+        {% endfor %}
+
+        </div>
+
+    </ul>
+</div>
+</body>
+</html>
+{% endblock %}

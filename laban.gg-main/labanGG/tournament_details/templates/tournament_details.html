@@ -1,0 +1,218 @@
+{% extends base_template %}
+{% load static %}
+
+{% block title %}Tournament Details{% endblock %}
+
+{% block content %}
+    <head>
+        <meta charset="UTF-8">
+        <title>Create Tournament</title>
+        <style>
+            body {
+                background-color: #4D24AC; 
+            }
+            .black-box {
+                background-color: black;
+                border-radius: 30px;
+                padding: 20px;
+                color: white;
+                margin: auto;
+                width: 60%;
+                margin-top: 50px;
+                overflow: auto; 
+            }
+            .purple-box {
+                background-color: #9400D3; 
+                padding: 10px;
+                margin-bottom: 10px;
+                color: white;
+            }
+            .form-column {
+                width: 45%;
+                float: left;
+                padding-right: 5%;
+            }
+            .header-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 35px;
+            }
+            .pink-button {
+                background-color: #F6247B;
+                color: white;
+                border: none;
+                padding: 10px 10px;
+                border-radius: 30px;
+                cursor: pointer;
+                margin-top: 20px;
+                width: 100px;
+                text-align: center;
+            }
+
+
+            .right-panel {
+                background-color: #6549A4; 
+                color: white; 
+                padding: 10px; 
+                width: 200px; 
+                box-sizing: border-box; 
+                position: fixed; 
+                top: 102px; 
+                right: 0; 
+                bottom: 0; 
+                z-index: 998; 
+            }
+            .right-panel button.standard {
+                background-color: #CB6CE6;
+                border: none;
+                color: white;
+                padding: 10px 100px;
+                cursor: pointer;
+                width: 100%;
+                position: relative;
+                right: 10px;
+                font-size: 18px;
+                display: grid;
+                gap: 15px;
+                grid-template-columns: auto auto;
+                justify-content: center; 
+                align-items: center; 
+                text-align: center;
+            }
+            .right-panel button.pending {
+                background-color: #6549A4; 
+                border: none;
+                cursor: pointer;
+                left: 5px;
+                position: relative;
+                font-size: 18px;
+                display: flex;
+                justify-content: center; 
+                align-items: center; 
+                text-align: center;
+            }
+            .right-panel button img {
+                height: 60px;
+            }
+
+        </style>
+    </head>
+    <body>
+    <div class="black-box">
+        <div class="header-row">
+            <h2>Tournament Details</h2>
+            <div class="pink-button"><a href="brackets/">View Brackets</a></div>
+        </div>
+
+        <!-- Display Tournament Details -->
+        <div class="form-column">
+            <div class="purple-box">
+                <label for="id_tournament_organizer">Tournament Organizer:</label>
+                <input type="text" id="id_tournament_organizer" value="{{ tournament.tournament_organizer }}" disabled>
+            </div>
+            <div class="purple-box">
+                <label for="id_name">Name:</label>
+                <input type="text" id="id_name" value="{{ tournament.name }}" disabled>
+            </div>
+            <div class="purple-box">
+                <label for="id_game">Game:</label>
+                <input type="text" id="id_game" value="{{ tournament.game }}" disabled>
+            </div>
+            <div class="purple-box">
+                <label for="id_tier">Tier:</label>
+                <input type="text" id="id_tier" value="{{ tournament.get_tier_display }}" disabled>
+            </div>
+            <div class="purple-box">
+                <label for="id_location">Location:</label>
+                <input type="text" id="id_location" value="{{ tournament.location }}" disabled>
+            </div>
+            <div class="purple-box">
+                <label for="id_format">Format:</label>
+                <input type="text" id="id_format" value="{{ tournament.get_format_display }}" disabled>
+            </div>
+            <div class="purple-box">
+                <label for="id_application_link">Application Link:</label>
+                <input type="text" id="id_application_link" value="{{ tournament.application_link }}" disabled>
+            </div>
+            <div class="purple-box">
+                <label for="id_schedule">Schedule:</label>
+                <textarea id="id_schedule" disabled>{{ tournament.schedule }}</textarea>
+            </div>
+            <div class="purple-box">
+                <label for="id_prize_pool">Prize Pool:</label>
+                <textarea id="id_prize_pool" disabled>{{ tournament.prize_pool }}</textarea>
+            </div>
+            <div class="purple-box">
+                <label for="id_more_details">More Details:</label>
+                <textarea id="id_more_details" disabled>{{ tournament.more_details }}</textarea>
+            </div>
+        </div>
+        <!-- End of Tournament Details -->
+
+        <!-- Right Panel -->
+        <form method="POST">
+            {% csrf_token %}
+            <div class="right-panel">
+                <h2 style='font-size:24px; width:100%; text-align: center'>
+                    {% if tournament.status == "Upcoming" %}
+                        Registration Open
+                    {% else %}
+                        Tournament {{ tournament.status }}
+                    {% endif %}
+                </h2>
+
+                {% if user.isOrganizer == False %}
+                    <!-- Join Tournament Button -->
+                    <button class="standard" type="submit" name="goToJoinTourney" value="goToJoinTourney">
+                        <b>Join Tournament</b>
+                        <img src="https://clipartcraft.com/images/red-arrow-transparent-right-7.png" style='width:40px'>
+                    </button>
+
+                {% elif tournament.status != "Ended" %}
+                    {% if tournament.status == "Pending" %}
+                        <h2 style='color:red; font-size:24px; width:100%; text-align: center'>
+                            Are you sure you want to start tournament?
+                        </h2>
+
+                        <div style='display: grid; gap: 15px; grid-template-columns: auto auto;'>
+                            <button class="pending" type="submit" name="updateTourneyStatus" value="updateTourneyStatus">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5974/5974759.png" style='width:60px'>
+                            </button>
+
+                            <button class="pending" type="submit" name="notStartingYet" value="notStartingYet">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" style='width:60px'>
+                            </button>
+                        </div>
+
+                    {% else %}
+                        <button class="standard" type="submit" name="updateTourneyStatus" value="updateTourneyStatus">
+                            <b>
+                            {% if tournament.status == "Upcoming" %}
+                                Start Tournament
+                            {% elif tournament.status == "Ongoing" %}
+                                Pause Tournament
+                            {% elif tournament.status == "Paused" %}
+                                Resume Tournament
+                            {% endif %}
+                            </b>
+
+                            {% if tournament.status == "Upcoming" %}
+                                <img src="https://clipartcraft.com/images/red-arrow-transparent-right-7.png" style='width:40px'>
+                            {% elif tournament.status == "Ongoing" %}
+                                <img src="https://freepngimg.com/thumb/pause_button/25377-7-pause-button-image-thumb.png" style='width:60px'>
+                            {% elif tournament.status == "Paused" %}
+                                <img src="https://icon-library.com/images/play-icon-png-transparent/play-icon-png-transparent-28.jpg" style='width:60px'>
+                            {% endif %}
+                        </button>
+
+                    {% endif %}
+                {% endif %}
+            </div>
+        </form>
+        <!-- End of Right Panel -->
+    </div>
+{% endblock %}

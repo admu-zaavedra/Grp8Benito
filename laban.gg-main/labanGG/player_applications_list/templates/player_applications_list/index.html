@@ -1,0 +1,126 @@
+{% extends 'base_organizer.html' %}
+{% load static %}
+
+{% block title %}{{ tournament.name }} Player Applications{% endblock %}
+
+{% block content %}
+	<head>
+        <meta charset="UTF-8">
+        <title>{{ tournament.name }} Player Applications</title>
+        <style>
+            body {
+                background-color: #4D24AC;
+            }
+            .header-row {
+                color: white;
+                margin-left: 41%;
+                margin-top: -75px;
+                width: 50%;
+            }
+            h2 {
+                font-size: 35px;
+            }
+            .search-bar {
+            	background-color: #4D24AC;
+            	margin-left: 3%;
+            	font-size: 18px;
+            	color: white;
+            }
+            .search-button {
+            	background-color: #4D24AC;
+            	border: none;
+            	cursor: pointer;
+            }
+            .search-button img {
+		        width: 17px;
+		        height: 17px;
+            }
+            .player-apps-container {
+                background-color: #4D24AC;
+                margin: auto;
+                margin-top: 25px;
+                width: 60%;
+                overflow: auto;
+                color: white;
+                display: grid;
+                gap: 50px 50px;
+                grid-template-columns: auto auto auto;
+                justify-content: center;
+                align-items: center;
+            }
+            .player-apps {
+                background-color: black;
+                margin-left: 15px;
+                width: 225px;
+                height: 175px;
+            }
+            .player-apps-header {
+                margin-top: 14px;
+                margin-left: 20px;
+                width: 80%;
+                color: white;
+                display: flex;
+                font-size: 18px;
+                justify-content: center;
+                align-items: center;
+            }
+            .player-apps img {
+                margin-top: 10px;
+                margin-left: 60px;
+                width: 108px;
+                height: 108px;
+            }
+            .player-apps-button {
+                background-color: black;
+                border: none;
+                cursor: pointer;
+            }
+            .player-apps-button img {
+                margin: auto;
+                margin-left: 5px;
+                width: 24px;
+                height: 24px;
+            }
+        </style>
+    </head>
+    <body>
+        <form method="POST">
+            {% csrf_token %}
+        	<div class="header-row">
+                <h2>Player Applications</h2>
+
+    			<input class="search-bar" type="search" placeholder="Search Players" name="usedKeyword">
+    			<button class="search-button" type="submit" name="searchPlayer" value="searchPlayer">
+    			 <img src="https://www.freeiconspng.com/uploads/search-icon-png-21.png">
+    			</button>
+            </div>
+
+            <h2 style='margin-left:150px; color:white; font-size:24px'>{{ message }}</h2>
+
+            <div class="player-apps-container">
+                {% if not applicants %}
+                    <h2 style='margin-left:100px; color:white; font-size:24px'>No Results Found</h2>
+                {% endif %}
+
+                {% for applicant in applicants %}
+                    <div class="player-apps">
+                        <div class="player-apps-header">
+                            <u><a href="{{ applicant.get_absolute_url }}">{{ applicant.ign }}</a></u>
+
+                            <button class="player-apps-button" type="submit" name="acceptApp{{ applicant.id }}" value="acceptApp{{ applicant.id }}">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5974/5974759.png">
+                            </button>
+
+                            <button class="player-apps-button" type="submit" name="rejectApp{{ applicant.id }}" value="rejectApp{{ applicant.id }}">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png">
+                            </button>
+                        </div>
+
+                        <img src="{{ default_player_icon }}">
+                    </div>
+                {% endfor %}
+            </div>
+        </form>
+    </body>
+</html>
+{% endblock %}
